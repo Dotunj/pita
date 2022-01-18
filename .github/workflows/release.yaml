@@ -14,9 +14,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      # install upx to compress the binary
-      - name: Install upx
-        run: sudo apt-get install -y upx
       # Install specific version of go
       - name: Setup go
         uses: actions/setup-go@v2
