@@ -37,9 +37,9 @@ project_name: homebrew-pita
 
 # Check https://goreleaser.com/customization/homebrew/
 brews:
-  - homepage: 'https://github.com/dotunj/homebrew-pita'
+  - name: pita
+    homepage: 'https://github.com/dotunj/homebrew-pita'
     description: 'Binary Distribution for Pita'
-    folder: Formula
     commit_author:
       name: dotunj
       email: dotunj@gmail.com
