@@ -36,6 +36,17 @@ archives:
 
 project_name: pita
 
+nfpms:
+  - license: "Apache 2.0"
+    maintainer: "dotunj"
+    homepage: "https://github.com/dotunj/pita"
+    description: "Binary Distribution for Pita"
+    formats:
+      - apk
+      - rpm
+      - deb
+
+
 # Check https://goreleaser.com/customization/homebrew/
 brews:
   - name: pita
