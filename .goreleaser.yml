@@ -17,6 +17,7 @@ builds:
       - linux
     goarch:
       - amd64
+      - arm64
     ignore:
       - goos: darwin
         goarch: 386
@@ -29,11 +30,11 @@ builds:
 
 # Check https://goreleaser.com/customization/archive/
 archives:
-  - name_template: "homebrew-pita_{{ .Version }}_{{ .Os }}_{{ .Arch }}"  
+  - name_template: "pita_{{ .Version }}_{{ .Os }}_{{ .Arch }}"  
     replacements:
       amd64: x86_64
 
-project_name: homebrew-pita
+project_name: pita
 
 # Check https://goreleaser.com/customization/homebrew/
 brews:
