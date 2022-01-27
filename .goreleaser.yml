@@ -38,13 +38,22 @@ project_name: pita
 
 nfpms:
   - license: "Apache 2.0"
+    id: packages
     maintainer: "dotunj"
     homepage: "https://github.com/dotunj/pita"
     description: "Binary Distribution for Pita"
+    file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     formats:
       - apk
       - rpm
       - deb
+
+publishers:
+   - name: fury.io
+     ids:
+      - pacakages
+     dir: "{{ dir .ArtifactPath }}" 
+     cmd: curl -F package=@{{ .ArtifactName }} https://{{ .Env.FURY_TOKEN }}@push.fury.io/pita/
 
 
 # Check https://goreleaser.com/customization/homebrew/
