@@ -51,9 +51,9 @@ nfpms:
 publishers:
    - name: fury.io
      ids:
-      - pacakages
+      - packages
      dir: "{{ dir .ArtifactPath }}" 
-     cmd: curl -F package=@{{ .ArtifactName }} https://{{ .Env.FURY_TOKEN }}@push.fury.io/pita/
+     cmd: curl -F package=@{{ .ArtifactName }} https://{{ .Env.FURY_TOKEN }}@push.fury.io/pera/
 
 
 # Check https://goreleaser.com/customization/homebrew/
