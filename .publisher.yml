@@ -6,7 +6,7 @@ env:
 project_name: pita
 
 release:
-  disable: false
+  disable: true
 
 # Check https://goreleaser.com/customization/hooks/
 before:
