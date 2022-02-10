@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - "v[0-9]+.[0-9]+.[0-9]+" # Only build tag with semantic versioning format
+      - "v0.*" # Only build tag with semantic versioning format
 
 jobs:
   analyze-tags:
