@@ -10,7 +10,7 @@ jobs:
     name: Analyze Tags
     runs-on: ubuntu-latest
     outputs:
-      should-publish: ${{ steps.gt.should_publish }}
+      should-publish: ${{ steps.gt.outputs.should_publish }}
     steps:
       - uses: actions/checkout@v2
         name: Checkout
