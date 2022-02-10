@@ -1,12 +1,17 @@
-   # Check https://goreleaser.com/customization/env/
+# Check https://goreleaser.com/customization/env/
 env:
   - GO111MODULE=on
   - GOPROXY=https://goproxy.io
 
+project_name: pita
+
+release:
+  disable: false
+
 # Check https://goreleaser.com/customization/hooks/
 before:
   hooks:
-  - go mod download
+    - go mod download
 
 # Check https://goreleaser.com/customization/build/
 builds:
@@ -30,11 +35,9 @@ builds:
 
 # Check https://goreleaser.com/customization/archive/
 archives:
-  - name_template: "pita_{{ .Version }}_{{ .Os }}_{{ .Arch }}"  
+  - name_template: "pita_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     replacements:
       amd64: x86_64
-
-project_name: pita
 
 nfpms:
   - license: "Apache 2.0"
@@ -47,3 +50,22 @@ nfpms:
       - apk
       - rpm
       - deb
+
+publishers:
+  - name: fury.io
+    ids:
+      - packages
+    dir: "{{ dir .ArtifactPath }}"
+    cmd: curl -F package=@{{ .ArtifactName }} https://{{ .Env.FURY_TOKEN }}@push.fury.io/pera/
+
+# Check https://goreleaser.com/customization/homebrew/
+brews:
+  - name: pita
+    homepage: "https://github.com/dotunj/homebrew-pita"
+    description: "Binary Distribution for Pita"
+    commit_author:
+      name: dotunj
+      email: dotunj@gmail.com
+    tap:
+      owner: dotunj
+      name: homebrew-tools
