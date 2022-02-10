@@ -7,6 +7,7 @@ on:
 
 jobs:
   analyze-tags:
+    name: Analyze Tags
     runs-on: ubuntu-latest
     outputs:
       should-publish: ${{ steps.gt.should_publish }}
@@ -19,7 +20,8 @@ jobs:
         id: gt
         uses: Dotunj/compare-tags-actions@main
 
-  build:
+  build-and-release:
+    name: Build and Release Binaries
     runs-on: ubuntu-latest
     needs: analyze-tags
     steps:
