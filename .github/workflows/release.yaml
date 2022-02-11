@@ -54,7 +54,7 @@ jobs:
 
       - name: Publish Binaries to Package Repositories
         uses: goreleaser/goreleaser-action@v2
-        if: needs.analyze-tags.outputs.should-publish == true
+        if: needs.analyze-tags.outputs.should-publish == 'true' # the output is been evaluated as a string
         with:
           version: latest
           args: -f .publisher.yml release --rm-dist
