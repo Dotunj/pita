@@ -1,48 +1,61 @@
 package main
 
 import (
-    "encoding/json"
-    "fmt"
-    "log"
-    "net/http"
-    "time"
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"strings"
+	"time"
 
-    "github.com/hashicorp/go-retryablehttp"
+	"github.com/hashicorp/go-retryablehttp"
 )
 
 func main() {
-    // use retryable http
-    client := retryablehttp.NewClient()
-    client.RetryMax = 10
+	v := "0.1.0"
 
-    // get current time and set the date and month format
-    currentTime := time.Now()
-    month := currentTime.Format("1")
-    date := currentTime.Format("2")
+    //print version
+	f, err := os.ReadFile("VERSION")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	v = strings.TrimSuffix(string(f), "\n")
+	fmt.Println(v)
 
-    req, err := retryablehttp.NewRequest(http.MethodGet, "http://numbersapi.com/"+month+"/"+date+"/date?json", nil)
-    if err != nil {
-        log.Fatalln(err)
-    }
+	// use retryable http
+	client := retryablehttp.NewClient()
+	client.RetryMax = 10
 
-    res, err := client.Do(req)
-    if err != nil {
-        log.Fatalln(err)
-    }
+	// get current time and set the date and month format
+	currentTime := time.Now()
+	month := currentTime.Format("1")
+	date := currentTime.Format("2")
 
-    defer res.Body.Close()
+	req, err := retryablehttp.NewRequest(http.MethodGet, "http://numbersapi.com/"+month+"/"+date+"/date?json", nil)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
-    var response map[string]interface{}
+	res, err := client.Do(req)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
-    fail := json.NewDecoder(res.Body).Decode(&response)
-    if fail != nil {
-        log.Fatalln(err)
-    }
+	defer res.Body.Close()
 
-    resp, err := json.Marshal(response)
-    if err != nil {
-        log.Fatalln(err)
-    }
+	var response map[string]interface{}
 
-    fmt.Println(string(resp))
+	fail := json.NewDecoder(res.Body).Decode(&response)
+	if fail != nil {
+		log.Fatalln(err)
+	}
+
+	resp, err := json.Marshal(response)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	fmt.Println(string(resp))
+
 }
