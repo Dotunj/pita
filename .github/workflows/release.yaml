@@ -50,11 +50,11 @@ jobs:
           FURY_TOKEN: ${{ secrets.FURY_TOKEN }}
       
       - name: Should Publish binary
-        run: echo should publish - "${{ needs.analyze-tags.outputs.should-publish }}"
+        run: echo should publish - ${{ needs.analyze-tags.outputs.should-publish }}
 
       - name: Publish Binaries to Package Repositories
         uses: goreleaser/goreleaser-action@v2
-        if: needs.analyze-tags.outputs.should-publish 
+        if: ${{ needs.analyze-tags.outputs.should-publish }}
         with:
           version: latest
           args: -f .publisher.yml release --rm-dist
