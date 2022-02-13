@@ -1,7 +1,4 @@
 # Check https://goreleaser.com/customization/env/
-env:
-  - GO111MODULE=on
-  - GOPROXY=https://goproxy.io
 
 project_name: pita
 
@@ -35,23 +32,33 @@ archives:
   - name_template: "pita_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     replacements:
       amd64: x86_64
+    files:
+      - VERSION
 
 nfpms:
-  - license: "Apache 2.0"
-    id: packages
+  - id: debrpm
+    license: "Apache 2.0"
+    maintainer: "dotunj"
+    homepage: "https://github.com/dotunj/pita"
+    description: "Binary Distribution for Pita"
+    file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    formats:
+      - rpm
+      - deb
+
+  - id: apk
+    license: "Apache 2.0"
     maintainer: "dotunj"
     homepage: "https://github.com/dotunj/pita"
     description: "Binary Distribution for Pita"
     file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     formats:
       - apk
-      - rpm
-      - deb
 
 publishers:
   - name: fury.io
     ids:
-      - packages
+      - debrpm
     dir: "{{ dir .ArtifactPath }}"
     cmd: curl -F package=@{{ .ArtifactName }} https://{{ .Env.FURY_TOKEN }}@push.fury.io/pera/
 

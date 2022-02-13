@@ -1,12 +1,10 @@
-   # Check https://goreleaser.com/customization/env/
-env:
-  - GO111MODULE=on
-  - GOPROXY=https://goproxy.io
-
 # Check https://goreleaser.com/customization/hooks/
+project_name: pita
+
 before:
   hooks:
-  - go mod download
+    - go mod download
+    - go mod tidy
 
 # Check https://goreleaser.com/customization/build/
 builds:
@@ -18,32 +16,32 @@ builds:
     goarch:
       - amd64
       - arm64
-    ignore:
-      - goos: darwin
-        goarch: 386
-      - goos: linux
-        goarch: arm
-        goarm: 7
-      - goarm: mips64
-        gomips: hardfloat
-    # Run upx after build finished
 
 # Check https://goreleaser.com/customization/archive/
 archives:
-  - name_template: "pita_{{ .Version }}_{{ .Os }}_{{ .Arch }}"  
+  - name_template: "pita_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     replacements:
       amd64: x86_64
 
-project_name: pita
-
 nfpms:
-  - license: "Apache 2.0"
-    id: packages
+  - id: debrpm
+    license: "Apache 2.0"
+    maintainer: "dotunj"
+    homepage: "https://github.com/dotunj/pita"
+    description: "Binary Distribution for Pita"
+    file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    formats:
+      - rpm
+      - deb
+
+  - id: apk
+    license: "Apache 2.0"
     maintainer: "dotunj"
     homepage: "https://github.com/dotunj/pita"
     description: "Binary Distribution for Pita"
     file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     formats:
       - apk
-      - rpm
-      - deb
+
+checksum:
+  name_template: "{{ .ProjectName}}_checksums.txt"

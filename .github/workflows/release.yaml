@@ -10,7 +10,7 @@ jobs:
     name: Analyze Tags
     runs-on: ubuntu-latest
     outputs:
-      should-publish: ${{ steps.gt.outputs.should_publish }}
+      should-publish: ${{ steps.gt.outputs.is_current_tag_the_highest }}
     steps:
       - uses: actions/checkout@v2
         name: Checkout
@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 0
       - name: Get tags
         id: gt
-        uses: Dotunj/compare-tags-actions@main
+        uses: Dotunj/github-action-analyze-tags@v0.1.0
 
   build-and-release:
     name: Build and Release Binaries
@@ -52,7 +52,7 @@ jobs:
       - name: Should Publish binary
         run: echo should publish - ${{ needs.analyze-tags.outputs.should-publish }}
 
-      - name: Publish Binaries to Package Repositories
+      - name: Release, Upload Artifacts & Publish Binaries to Package Repositories
         uses: goreleaser/goreleaser-action@v2
         if: needs.analyze-tags.outputs.should-publish == 'true' # the output is been evaluated as a string
         with:
