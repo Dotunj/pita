@@ -1,12 +1,15 @@
 package cmd
 
 import (
+	"embed"
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
 )
+
+//go:embed VERSION
+var file embed.FS
 
 func init() {
 	rootCmd.AddCommand(versionCmd)
@@ -18,7 +21,7 @@ var versionCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		v := "0.1.0"
 
-		f, err := os.ReadFile("VERSION")
+		f, err := file.ReadFile("VERSION")
 		if err != nil {
 			return err
 		}

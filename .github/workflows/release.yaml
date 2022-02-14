@@ -48,9 +48,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
           FURY_TOKEN: ${{ secrets.FURY_TOKEN }}
-      
-      - name: Should Publish binary
-        run: echo should publish - ${{ needs.analyze-tags.outputs.should-publish }}
 
       - name: Release, Upload Artifacts & Publish Binaries to Package Repositories
         uses: goreleaser/goreleaser-action@v2
